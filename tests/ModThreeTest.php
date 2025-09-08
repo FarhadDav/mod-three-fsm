@@ -7,26 +7,116 @@ use PHPUnit\Framework\TestCase;
 
 class ModThreeTest extends TestCase
 {
+    private array  $states;
+    private array  $alphabet;
+    private string $initialState;
+    private array  $finalStates;
+    private array  $transitionFunction;
     protected function setUp(): void
     {
+        $this->states = ['S0', 'S1', 'S2'];
+        $this->alphabet = ['0', '1'];
+        $this->initialState = 'S0';
+        $this->finalStates = ['S0', 'S1', 'S2'];
+        $this->transitionFunction = [
+            'S0' => ['0' => 'S0', '1' => 'S1'],
+            'S1' => ['0' => 'S2', '1' => 'S0'],
+            'S2' => ['0' => 'S1', '1' => 'S2'],
+        ];
         $this->fsm = new FSM(
-            ['S0', 'S1', 'S2'],
-            ['0', '1'],
-            'S0',
-            ['S0', 'S1', 'S2'],
+            $this->states,
+            $this->alphabet,
+            $this->initialState,
+            $this->finalStates,
+            $this->transitionFunction,
+        );
+    }
+
+    public function testGenerate(): void
+    {
+        $modThree = new \Fsm\ModThree();
+        $this->assertSame("0", $modThree->modThree("110"));
+        $modThree = new \Fsm\ModThree();
+        $this->assertSame("1", $modThree->modThree("1010"));
+    }
+
+    public function testEmptyInput(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $modThree = new \Fsm\ModThree();
+        $modThree->modThree("");
+    }
+
+    public function testInvalidFSMInitialState(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->fsm = new FSM(
+            $this->states,
+            $this->alphabet,
+            "S4",
+            $this->finalStates,
+            $this->transitionFunction,
+        );
+    }
+
+    public function testInvalidFSMFinalState(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->fsm = new FSM(
+            $this->states,
+            $this->alphabet,
+            $this->initialState,
+            ["S5"],
+            $this->transitionFunction,
+        );
+    }
+
+    public function testInvalidFSMTransitionState(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->fsm = new FSM(
+            $this->states,
+            $this->alphabet,
+            $this->initialState,
+            $this->finalStates,
             [
-                'S0' => ['0' => 'S0', '1' => 'S1'],
+                'S6' => ['0' => 'S0', '1' => 'S1'],
                 'S1' => ['0' => 'S2', '1' => 'S0'],
                 'S2' => ['0' => 'S1', '1' => 'S2'],
             ],
         );
     }
 
-    public function testGenerate(): void
+    public function testInvalidFSMTransitionSymbol(): void
     {
-        $modThree = new \Fsm\ModThree("110");
-        $this->assertSame("0", $modThree->modThree());
-        $modThree = new \Fsm\ModThree("1010");
-        $this->assertSame("1", $modThree->modThree());
+        $this->expectException(\InvalidArgumentException::class);
+        $this->fsm = new FSM(
+            $this->states,
+            $this->alphabet,
+            $this->initialState,
+            $this->finalStates,
+            [
+                'S0' => ['3' => 'S0', '1' => 'S1'],
+                'S1' => ['0' => 'S2', '1' => 'S0'],
+                'S2' => ['0' => 'S1', '1' => 'S2'],
+            ],
+        );
     }
+
+    public function testInvalidFSMTransitionUnknownTransition(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->fsm = new FSM(
+            $this->states,
+            $this->alphabet,
+            $this->initialState,
+            $this->finalStates,
+            [
+                'S0' => ['0' => 'S0', '1' => 'S6'],
+                'S1' => ['0' => 'S2', '1' => 'S0'],
+                'S2' => ['0' => 'S1', '1' => 'S2'],
+            ],
+        );
+    }
+
 }
