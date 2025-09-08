@@ -6,6 +6,7 @@ class ModThree
 {
     private FSM $fsm;
     private string $input;
+
     public function __construct(string $input)
     {
         $this->input = $input;
@@ -13,7 +14,7 @@ class ModThree
             ['S0', 'S1', 'S2'],
             ['0', '1'],
             'S0',
-            ['S0','S1','S2'],
+            ['S0', 'S1', 'S2'],
             [
                 'S0' => ['0' => 'S0', '1' => 'S1'],
                 'S1' => ['0' => 'S2', '1' => 'S0'],
@@ -22,7 +23,7 @@ class ModThree
         );
     }
 
-    public function modThree() : string
+    public function modThree(): string
     {
         return $this->fsm->run($this->input);
     }
