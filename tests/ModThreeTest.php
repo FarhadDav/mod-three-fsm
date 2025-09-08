@@ -25,6 +25,8 @@ class ModThreeTest extends TestCase
     public function testGenerate(): void
     {
         $modThree = new \Fsm\ModThree("110");
-        $this->assertSame(0, $modThree->modThree());
+        $this->assertSame("0", $modThree->modThree());
+        $modThree = new \Fsm\ModThree("1010");
+        $this->assertSame("1", $modThree->modThree());
     }
 }

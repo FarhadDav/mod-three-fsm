@@ -6,6 +6,7 @@ class ModThree
 {
     private FSM $fsm;
     private string $input;
+    private array $stateToOutput = ['S0' => '0', 'S1' => '1', 'S2' => '2'];
 
     public function __construct(string $input)
     {
@@ -25,6 +26,6 @@ class ModThree
 
     public function modThree(): string
     {
-        return $this->fsm->run($this->input);
+        return $this->stateToOutput[$this->fsm->run($this->input)];
     }
 }

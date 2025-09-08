@@ -23,8 +23,12 @@ final class FSM implements FSMInterface
 
     public function run(string $input): string
     {
-        $result = $this->initialState;
+        $state = $this->initialState;
 
-        return $result;
+        foreach (str_split($input) as $symbol) {
+            $state = $this->transitionFunction[$state][$symbol];
+        }
+
+        return $state;
     }
 }
