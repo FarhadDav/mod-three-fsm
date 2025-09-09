@@ -1,11 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace Fsm;
 
 class ModThree
 {
-    private FSM $fsm;
-    private array $stateToOutput = ['S0' => '0', 'S1' => '1', 'S2' => '2'];
+    private FSMInterface $fsm;
 
     public function __construct()
     {
@@ -31,6 +31,7 @@ class ModThree
      */
     public function modThree(string $input): string
     {
-        return $this->stateToOutput[$this->fsm->run($input)];
+        $state = State::from($this->fsm->run($input));
+        return $state->valueFromState();
     }
 }

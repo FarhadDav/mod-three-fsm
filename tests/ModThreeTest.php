@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Fsm\tests;
 
@@ -37,8 +38,9 @@ class ModThreeTest extends TestCase
     {
         $modThree = new \Fsm\ModThree();
         $this->assertSame("0", $modThree->modThree("110"));
-        $modThree = new \Fsm\ModThree();
         $this->assertSame("1", $modThree->modThree("1010"));
+        $this->assertSame("0", $modThree->modThree("000"));
+        $this->assertSame("1", $modThree->modThree("111"));
     }
 
     public function testEmptyInput(): void
