@@ -12,6 +12,7 @@ class ModThreeTest extends TestCase
     private string $initialState;
     private array  $finalStates;
     private array  $transitionFunction;
+    private FSM $fsm;
     protected function setUp(): void
     {
         $this->states = ['S0', 'S1', 'S2'];
@@ -45,6 +46,13 @@ class ModThreeTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $modThree = new \Fsm\ModThree();
         $modThree->modThree("");
+    }
+
+    public function testInvalidInput(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $modThree = new \Fsm\ModThree();
+        $modThree->modThree("heythere");
     }
 
     public function testInvalidFSMInitialState(): void

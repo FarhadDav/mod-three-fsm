@@ -13,19 +13,51 @@ final class FSM implements FSMInterface
         private array  $transitionFunction
     )
     {
-        $this->validate();
+        $this->validateFSM();
     }
 
-    private function validate() : void
+    /**
+     * Validate input
+     *
+     * @param string $input
+     * @return void
+     */
+    private function validateInput(string $input): void
+    {
+        if (empty($input)) {
+            throw new \InvalidArgumentException('Input is empty');
+        }
+
+        foreach (str_split($input) as $symbol) {
+            if (!in_array($symbol, $this->alphabet, true)) {
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        "Invalid symbol '%s'. Allowed: {%s}",
+                        $symbol,
+                        implode(',', $this->alphabet)
+                    )
+                );
+            }
+        }
+    }
+
+    /**
+     * Validates FSM parameters
+     *
+     * @return void
+     */
+    private function validateFSM() : void
     {
         if (!in_array($this->initialState, $this->states, true)) {
             throw new \InvalidArgumentException('Initial state not in list of states');
         }
+
         foreach ($this->finalStates as $f) {
             if (!in_array($f, $this->states, true)) {
                 throw new \InvalidArgumentException("Final state $f not in list of states");
             }
         }
+
         foreach ($this->states as $state) {
             if (!isset($this->transitionFunction[$state])) {
                 throw new \InvalidArgumentException("Missing transition function for $state");
@@ -41,11 +73,15 @@ final class FSM implements FSMInterface
         }
     }
 
+    /**
+     * Run the generated FSM instance
+     *
+     * @param string $input
+     * @return string
+     */
     public function run(string $input): string
     {
-        if (empty($input)) {
-            throw new \InvalidArgumentException('Input is empty');
-        }
+        $this->validateInput($input);
 
         $state = $this->initialState;
 

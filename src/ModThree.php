@@ -22,6 +22,13 @@ class ModThree
         );
     }
 
+    /**
+     * Takes list of output state mappings and returns appropriate one
+     * based on FSM run result
+     *
+     * @param string $input
+     * @return string
+     */
     public function modThree(string $input): string
     {
         return $this->stateToOutput[$this->fsm->run($input)];
