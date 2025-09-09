@@ -41,6 +41,8 @@ class ModThreeTest extends TestCase
         $this->assertSame("1", $modThree->calculate("1010"));
         $this->assertSame("0", $modThree->calculate("000"));
         $this->assertSame("1", $modThree->calculate("111"));
+        $this->assertSame("2", $modThree->calculate("1000"));
+        $this->assertSame("2", $modThree->calculate("1110"));
     }
 
     public function testEmptyInput(): void
