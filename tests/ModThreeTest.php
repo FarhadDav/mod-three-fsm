@@ -37,24 +37,24 @@ class ModThreeTest extends TestCase
     public function testGenerate(): void
     {
         $modThree = new \Fsm\ModThree();
-        $this->assertSame("0", $modThree->modThree("110"));
-        $this->assertSame("1", $modThree->modThree("1010"));
-        $this->assertSame("0", $modThree->modThree("000"));
-        $this->assertSame("1", $modThree->modThree("111"));
+        $this->assertSame("0", $modThree->calculate("110"));
+        $this->assertSame("1", $modThree->calculate("1010"));
+        $this->assertSame("0", $modThree->calculate("000"));
+        $this->assertSame("1", $modThree->calculate("111"));
     }
 
     public function testEmptyInput(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $modThree = new \Fsm\ModThree();
-        $modThree->modThree("");
+        $modThree->calculate("");
     }
 
     public function testInvalidInput(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $modThree = new \Fsm\ModThree();
-        $modThree->modThree("heythere");
+        $modThree->calculate("heythere");
     }
 
     public function testInvalidFSMInitialState(): void

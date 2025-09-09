@@ -29,7 +29,7 @@ class ModThree
      * @param string $input
      * @return string
      */
-    public function modThree(string $input): string
+    public function calculate(string $input): string
     {
         $state = State::from($this->fsm->run($input));
         return $state->valueFromState();
