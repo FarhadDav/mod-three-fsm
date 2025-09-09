@@ -52,7 +52,14 @@ class ModThreeTest extends TestCase
         $modThree->calculate("");
     }
 
-    public function testInvalidInput(): void
+    public function testInvalidInputDigit(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $modThree = new \Fsm\ModThree();
+        $modThree->calculate("3");
+    }
+
+    public function testInvalidInputWord(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $modThree = new \Fsm\ModThree();
