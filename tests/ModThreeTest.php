@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Fsm\tests;
 
 use Fsm\FSM;
+use Fsm\ModThree;
 use PHPUnit\Framework\TestCase;
 
 class ModThreeTest extends TestCase
@@ -36,7 +37,7 @@ class ModThreeTest extends TestCase
 
     public function testGenerate(): void
     {
-        $modThree = new \Fsm\ModThree();
+        $modThree = new ModThree();
         $this->assertSame("0", $modThree->calculate("110"));
         $this->assertSame("1", $modThree->calculate("1010"));
         $this->assertSame("0", $modThree->calculate("000"));
@@ -48,21 +49,21 @@ class ModThreeTest extends TestCase
     public function testEmptyInput(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $modThree = new \Fsm\ModThree();
+        $modThree = new ModThree();
         $modThree->calculate("");
     }
 
     public function testInvalidInputDigit(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $modThree = new \Fsm\ModThree();
+        $modThree = new ModThree();
         $modThree->calculate("3");
     }
 
     public function testInvalidInputWord(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $modThree = new \Fsm\ModThree();
+        $modThree = new ModThree();
         $modThree->calculate("heythere");
     }
 
